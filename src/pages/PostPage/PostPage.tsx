@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import {
   commentsActionsAsync,
   selectComments,
+  selectIsCommentsLoading,
 } from '../../comments/model/commentsReducer';
 import { CommentsList } from '../../comments/components/CommentsList';
 import { AddCommentForm } from '../../comments/components/AddCommentForm';
@@ -18,6 +19,7 @@ export const PostPage = () => {
   const [post, setPost] = useState<PostType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const isCommentsLoading = useSelector(selectIsCommentsLoading);
   const comments = useSelector(selectComments);
   const dispatch = useAppDispatch();
 
@@ -29,13 +31,13 @@ export const PostPage = () => {
         setIsLoading(false);
       });
 
-      dispatch(commentsActionsAsync.getComments(Number(id)));
+      dispatch(commentsActionsAsync.getPostComments(Number(id)));
     }
   }, []);
 
   return (
-    <div className="d-flex row-gap-5 column-gap-5 mh-100 h-100 justify-content-center flex-wrap">
-      {isLoading ? (
+    <div className="d-flex row-gap-5 column-gap-5 mh-100 h-100 flex-column flex-md-row">
+      {isLoading || isCommentsLoading ? (
         <Spinner className="m-auto" />
       ) : (
         <>

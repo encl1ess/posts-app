@@ -6,18 +6,18 @@ import { store } from './app/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AllPostsPage } from './pages/AllPostsPage/AllPostsPage';
 import { PostPage } from './pages/PostPage/PostPage';
+import { AllCommentsPage } from './pages/AllCommentsPage/AllCommentsPage';
 
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path={ROUTE.POSTS} element={<AllPostsPage />} />
-            <Route path={`${ROUTE.POSTS}/:id`} element={<PostPage />} />
-          </Routes>
-        </Layout>
-      </Router>
+      <Layout>
+        <Routes>
+          <Route path={ROUTE.INDEX} element={<AllPostsPage />} />
+          <Route path={`${ROUTE.POSTS}/:id`} element={<PostPage />} />
+          <Route path={`${ROUTE.COMMENTS}`} element={<AllCommentsPage />} />
+        </Routes>
+      </Layout>
     </Provider>
   );
 }

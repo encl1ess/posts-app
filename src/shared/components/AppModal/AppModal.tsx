@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-import { Header } from '../Header/Header';
 import Modal from 'react-bootstrap/Modal';
 
 interface AppModalProps {

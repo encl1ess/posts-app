@@ -28,7 +28,9 @@ export const Comment = ({ comment, isViewPostVisible }: CommentProps) => {
         }
       />
       <Card.Body className="d-flex flex-column gap-2">
-        <Card.Title className="text-capitalize">{comment.name}</Card.Title>
+        <Card.Title className="text-capitalize mw-80">
+          {comment.name}
+        </Card.Title>
         <Card.Subtitle className="fw-italic">{comment.email}</Card.Subtitle>
         <Card.Text>{comment.body}</Card.Text>
         {isViewPostVisible && (

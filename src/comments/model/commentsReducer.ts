@@ -5,10 +5,15 @@ import { createAppAsyncThunk } from '../../utils/hooks/useAppDispatch';
 import {
   addCommentRequest,
   deleteCommentRequest,
-  getCommentsRequest,
+  getAllCommentsRequest,
+  getPostCommentsRequest,
   updateCommentRequest,
 } from '../api';
 import { Comment, CommentBody } from './types';
+import {
+  getMaxPage,
+  getPaginatedData,
+} from '../../utils/helpers/getPaginatedData';
 
 interface CommentsState {
   comments: Comment[];
@@ -20,14 +25,22 @@ interface CommentsState {
 const initialState: CommentsState = {
   comments: [],
   page: 1,
-  offset: 5,
+  offset: 10,
   isLoading: false,
 };
 
-const getComments = createAppAsyncThunk(
-  'comments/getComments',
+const getAllComments = createAppAsyncThunk(
+  'comments/getAllComments',
+  async () => {
+    const response = await getAllCommentsRequest();
+    return response;
+  },
+);
+
+const getPostComments = createAppAsyncThunk(
+  'comments/getPostComments',
   async (id: number) => {
-    const response = await getCommentsRequest(id);
+    const response = await getPostCommentsRequest(id);
     return response;
   },
 );
@@ -60,33 +73,39 @@ export const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(getComments.pending, (state) => {
+    builder.addCase(getAllComments.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(
-      getComments.fulfilled,
+      getAllComments.fulfilled,
       (state, action: PayloadAction<Comment[]>) => {
         state.comments = action.payload;
+        state.isLoading = false;
       },
     );
-    builder.addCase(getComments.rejected, (state) => {
+    builder.addCase(getAllComments.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(addComment.pending, (state) => {
+    builder.addCase(getPostComments.pending, (state) => {
       state.isLoading = true;
+    });
+    builder.addCase(
+      getPostComments.fulfilled,
+      (state, action: PayloadAction<Comment[]>) => {
+        state.comments = action.payload;
+        state.isLoading = false;
+      },
+    );
+    builder.addCase(getPostComments.rejected, (state) => {
+      state.isLoading = false;
     });
     builder.addCase(
       addComment.fulfilled,
       (state, action: PayloadAction<Comment>) => {
         state.comments = [action.payload, ...state.comments];
+        state.isLoading = false;
       },
     );
-    builder.addCase(addComment.rejected, (state) => {
-      state.isLoading = false;
-    });
-    builder.addCase(updateComment.pending, (state) => {
-      state.isLoading = true;
-    });
     builder.addCase(
       updateComment.fulfilled,
       (state, action: PayloadAction<Comment>) => {
@@ -96,13 +115,6 @@ export const commentsSlice = createSlice({
         state.comments[index] = action.payload;
       },
     );
-    builder.addCase(updateComment.rejected, (state) => {
-      state.isLoading = false;
-    });
-
-    builder.addCase(deleteComment.pending, (state) => {
-      state.isLoading = true;
-    });
     builder.addCase(
       deleteComment.fulfilled,
       (state, action: PayloadAction<number>) => {
@@ -111,21 +123,34 @@ export const commentsSlice = createSlice({
         );
       },
     );
-    builder.addCase(deleteComment.rejected, (state) => {
-      state.isLoading = false;
-    });
   },
-  reducers: {},
+  reducers: {
+    setPage: (state, { payload }: PayloadAction<number>) => {
+      state.page = payload;
+    },
+  },
 });
 
 export const commentsActions = commentsSlice.actions;
 export const commentsActionsAsync = {
-  getComments,
+  getAllComments,
+  getPostComments,
   addComment,
   updateComment,
   deleteComment,
 };
 
 export const selectComments = (state: RootState) => state.comments.comments;
+export const selectIsCommentsLoading = (state: RootState) =>
+  state.comments.isLoading;
+export const selectCommentsPage = (state: RootState) => state.comments.page;
+export const selectCommentsMaxPage = (state: RootState) =>
+  getMaxPage(state.comments.comments.length, state.comments.offset);
+export const selectCommentsPaginated = (state: RootState) =>
+  getPaginatedData<Comment>(
+    state.comments.comments,
+    state.comments.page,
+    state.comments.offset,
+  );
 
 export default commentsSlice.reducer;

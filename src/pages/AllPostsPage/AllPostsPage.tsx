@@ -4,27 +4,24 @@ import { useSelector } from 'react-redux';
 import { Spinner } from 'react-bootstrap';
 import { PostsList } from '../../posts/components/PostsList';
 import { Paginator } from '../../shared/components/Paginator/Paginator';
-import { getAllPosts } from '../../posts/api';
 import {
   postsActions,
+  postsActionsAsync,
+  selectIsPostsLoading,
   selectPostsMaxPage,
   selectPostsPage,
   selectPostsPaginated,
 } from '../../posts/model/postsReducer';
 
 export const AllPostsPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector(selectIsPostsLoading);
   const postsPaginated = useSelector(selectPostsPaginated);
   const page = useSelector(selectPostsPage);
   const maxPage = useSelector(selectPostsMaxPage);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
-    getAllPosts().then((data) => {
-      dispatch(postsActions.setPosts(data));
-      setIsLoading(false);
-    });
+    dispatch(postsActionsAsync.getAllPosts());
   }, []);
 
   const handlePaginatorClick = (page: number) => {
@@ -37,7 +34,7 @@ export const AllPostsPage = () => {
         <Spinner className="m-auto" />
       ) : (
         <>
-          <PostsList posts={postsPaginated} />
+          <PostsList posts={postsPaginated} className="mx-auto" />
           <Paginator
             className="ms-auto"
             currentPage={page}

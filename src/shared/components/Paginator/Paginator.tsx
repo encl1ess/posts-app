@@ -23,15 +23,31 @@ export const Paginator = ({
         disabled={currentPage === 1}
         onClick={() => onClick(currentPage - 1)}
       />
-      {Array.from({ length: maxPage }).map((_, index) => (
-        <Pagination.Item
-          active={index + 1 === currentPage}
-          onClick={() => onClick(index + 1)}
-          key={index + 1}
-        >
-          {index + 1}
+      {currentPage >= 3 && (
+        <Pagination.Item onClick={() => onClick(currentPage - 2)}>
+          {currentPage - 2}
         </Pagination.Item>
-      ))}
+      )}
+      {currentPage >= 2 && (
+        <Pagination.Item onClick={() => onClick(currentPage - 1)}>
+          {currentPage - 1}
+        </Pagination.Item>
+      )}
+
+      <Pagination.Item active onClick={() => onClick(currentPage)}>
+        {currentPage}
+      </Pagination.Item>
+
+      {currentPage <= maxPage - 1 && (
+        <Pagination.Item onClick={() => onClick(currentPage + 1)}>
+          {currentPage + 1}
+        </Pagination.Item>
+      )}
+      {currentPage <= maxPage - 2 && (
+        <Pagination.Item onClick={() => onClick(currentPage + 2)}>
+          {currentPage + 2}
+        </Pagination.Item>
+      )}
       <Pagination.Next
         disabled={currentPage === maxPage}
         onClick={() => onClick(currentPage + 1)}

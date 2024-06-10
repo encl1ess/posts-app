@@ -1,5 +1,5 @@
-import { FC, ReactNode, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { FC, useState } from 'react';
+import { Modal } from 'react-bootstrap';
 import { AppModal } from '../../shared/components/AppModal/AppModal';
 import { Comment } from '../model/types';
 import { AddCommentForm } from './AddCommentForm';

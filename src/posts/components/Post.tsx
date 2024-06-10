@@ -12,7 +12,7 @@ interface PostProps {
 export const Post = ({ post, isReadMoreVisible, className }: PostProps) => {
   return (
     <Card
-      style={{ maxWidth: '600px', minWidth: '200px', height: 'fit-content' }}
+      style={{ maxWidth: '600px', height: 'fit-content' }}
       className={className}
     >
       <Card.Header>

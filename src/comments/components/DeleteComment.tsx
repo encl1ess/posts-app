@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { AppModal } from '../../shared/components/AppModal/AppModal';
 import { useAppDispatch } from '../../utils/hooks/useAppDispatch';
