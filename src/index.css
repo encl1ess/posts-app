@@ -5,3 +5,8 @@ body,
   max-height: 100dvh;
   max-width: 100dvw;
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+}

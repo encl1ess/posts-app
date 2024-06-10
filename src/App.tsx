@@ -1,27 +1,23 @@
-import React from 'react'
-import './App.css'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import { ROUTES } from './utils/constants'
-import { Layout } from './app/components/Layout/Layout'
-import { Post } from './posts/components/Post'
-import { PostsList } from './posts/components/PostsList'
-import { Provider } from 'react-redux'
-import { store } from './app/store'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { ROUTE } from './utils/constants';
+import { Layout } from './shared/components/Layout/Layout';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { AllPostsPage } from './pages/AllPostsPage/AllPostsPage';
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="App">
-          <Layout>
-            <Routes>
-              <Route path={ROUTES.POSTS} element={<PostsList />} />
-            </Routes>
-          </Layout>
-        </div>
+        <Layout>
+          <Routes>
+            <Route path={ROUTE.POSTS} element={<AllPostsPage />} />
+          </Routes>
+        </Layout>
       </Router>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;
