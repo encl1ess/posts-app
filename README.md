@@ -1,12 +1,20 @@
-# Getting Started with Create React App
+Deployed app:
+https://encl1ess.github.io/posts-app/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Run project locally:
 
-## Available Scripts
-
-In the project directory, you can run:
+### `npm install`
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+App has header with navigation and 3 pages:
+
+- All Posts page - a list of posts with pagination
+- All Comments page - a list of comments with pagination, here we can edit or delete comments by clicking the arrow button.
+- Single Post page (we can go here by clicking on link in the comments or posts cards) - a single post with its comments, we can add new comment here
+
+Technologies:
+
+- React with TypeScript
+- Bootstrap
+- Redux Toolkit
